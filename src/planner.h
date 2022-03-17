@@ -8,15 +8,18 @@
 class Planner
 {
 public:
+  Planner() {}
   Planner(int width, int height, int x, int y);
+  void SetDestination(int x, int y);
   void AddNeighbors(Snake *snake);
   void UpdateDistances();
-  Cell *NextCell();
+  Cell NextCell();
 private:
-  std::vector<Cell *> neighbors;
+  std::vector<Cell> neighbors;
   int grid_width;
   int grid_height;
-  Cell destination = Cell();
+  int dest_x;
+  int dest_y;
 };
 
 #endif

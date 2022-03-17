@@ -1,6 +1,8 @@
-#include "game.h"
 #include <iostream>
 #include "SDL.h"
+
+#include "game.h"
+#include "planner.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
@@ -9,6 +11,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       random_h(0, static_cast<int>(grid_height - 1))
 {
   PlaceFood();
+  planner = Planner(static_cast<int>(grid_width), static_cast<int>(grid_height), food.x, food.y);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -26,7 +29,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake);
+    //controller.HandleInput(running, snake);
+    controller.HandleSearch(running, snake, planner);
     Update();
     renderer.Render(snake, food);
 
@@ -88,6 +92,7 @@ void Game::Update()
   {
     score++;
     PlaceFood();
+    planner.SetDestination(food.x, food.y);
     // Grow snake and increase speed.
     snake.GrowBody();
     snake.speed += 0.02;
