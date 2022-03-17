@@ -2,6 +2,7 @@
 #define PLANNER_H
 
 #include <vector>
+#include <memory>
 #include "cell.h"
 #include "snake.h"
 
@@ -13,9 +14,9 @@ public:
   void SetDestination(int x, int y);
   void AddNeighbors(Snake *snake);
   void UpdateDistances();
-  Cell NextCell();
+  Cell* NextCell();
 private:
-  std::vector<Cell> neighbors;
+  std::vector<std::unique_ptr<Cell>> neighbors;
   int grid_width;
   int grid_height;
   int dest_x;

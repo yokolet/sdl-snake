@@ -72,9 +72,9 @@ void Controller::HandleSearch(bool &running, Snake &snake, Planner &planner) con
     else
     {
       planner.AddNeighbors(&snake);
-      Cell c = planner.NextCell();
+      Cell* c = planner.NextCell();
       //std::cout << "next cell x: " << c.x << ", y: " << c.y << ", dist: " << c.distance << ", direction: " <<  ToString(c.direction) << std::endl;
-      snake.direction = c.direction;
+      snake.direction = c->direction;
       break;
     }
   }

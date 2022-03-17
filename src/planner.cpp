@@ -26,36 +26,35 @@ void Planner::AddNeighbors(Snake *snake)
   // left
   if (x - 1 >= 0)
   {
-    Cell c = Cell(x - 1, y, Snake::Direction::kLeft, dest_x, dest_y);
-    neighbors.push_back(c);
+    std::unique_ptr<Cell> c = std::make_unique<Cell>(x - 1, y, Snake::Direction::kLeft, dest_x, dest_y);
+    neighbors.push_back(std::move(c));
   }
   // right
   if (x + 1 < grid_width)
   {
-    Cell c = Cell(x + 1, y, Snake::Direction::kRight, dest_x, dest_y);
-    neighbors.push_back(c);
+    std::unique_ptr<Cell> c = std::make_unique<Cell>(x + 1, y, Snake::Direction::kRight, dest_x, dest_y);
+    neighbors.push_back(std::move(c));
   }
   // up
   if (y - 1 >= 0)
   {
-    Cell c = Cell(x, y - 1, Snake::Direction::kUp, dest_x, dest_y);
-    neighbors.push_back(c);
+    std::unique_ptr<Cell> c = std::make_unique<Cell>(x, y - 1, Snake::Direction::kUp, dest_x, dest_y);
+    neighbors.push_back(std::move(c));
   }
   // down
   if (y + 1 < grid_height)
   {
-    Cell c = Cell(x, y + 1, Snake::Direction::kDown, dest_x, dest_y);
-    neighbors.push_back(c);
+    std::unique_ptr<Cell> c = std::make_unique<Cell>(x, y + 1, Snake::Direction::kDown, dest_x, dest_y);
+    neighbors.push_back(std::move(c));
   }
 }
 
-bool Compare(Cell c1, Cell c2) {
-  return c1.distance > c2.distance;
+bool Compare(const std::unique_ptr<Cell>& c1, const std::unique_ptr<Cell>& c2) {
+  return c1->distance > c2->distance;
 }
 
-Cell Planner::NextCell()
+Cell *Planner::NextCell()
 {
   sort(this->neighbors.begin(), this->neighbors.end(), Compare);
-  auto c = this->neighbors.back();
-  return c;
+  return this->neighbors[this->neighbors.size()-1].get();
 }
