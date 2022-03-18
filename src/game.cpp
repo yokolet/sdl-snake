@@ -6,6 +6,7 @@
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
+      autonomous(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1))
@@ -30,9 +31,9 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // Input, Update, Render - the main game loop.
     //controller.HandleInput(running, snake);
-    controller.HandleSearch(running, snake, planner);
-    Update(snake);
-    renderer.Render(snake, food);
+    controller.HandleSearch(running, autonomous, planner);
+    Update(autonomous);
+    renderer.Render(autonomous, food);
 
     frame_end = SDL_GetTicks();
 
@@ -44,7 +45,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000)
     {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(std::vector<int>{snake.score, autonomous.score}, frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -90,7 +91,7 @@ void Game::Update(Snake& s)
   // Check if there's food over here
   if (food.x == new_x && food.y == new_y)
   {
-    score++;
+    s.score++;
     PlaceFood();
     planner.SetDestination(food.x, food.y);
     // Grow snake and increase speed.
@@ -99,5 +100,5 @@ void Game::Update(Snake& s)
   }
 }
 
-int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.size; }
+std::vector<int> Game::GetScores() const { return std::vector<int>{snake.score, autonomous.score}; }
+std::vector<int> Game::GetSizes() const { return std::vector<int>{snake.size, autonomous.size}; }

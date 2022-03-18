@@ -13,7 +13,7 @@ public:
   ~Renderer();
 
   void Render(Snake const snake, SDL_Point const &food);
-  void UpdateWindowTitle(int score, int fps);
+  void UpdateWindowTitle(std::vector<int> scores, int fps);
 
 private:
   SDL_Window *sdl_window;

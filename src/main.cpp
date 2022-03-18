@@ -16,7 +16,9 @@ int main() {
   Game game(kGridWidth, kGridHeight);
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
-  std::cout << "Score: " << game.GetScore() << "\n";
-  std::cout << "Size: " << game.GetSize() << "\n";
+  std::vector<int> scores = game.GetScores();
+  std::vector<int> sizes = game.GetSizes();
+  std::cout << "Score: snake: " << scores[0] << ", autonomous: " << scores[1] << "\n";
+  std::cout << "Size: snake: " << sizes[0] << ", autonomous: " << sizes[1] << "\n";
   return 0;
 }
