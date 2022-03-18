@@ -12,6 +12,7 @@ class Cell
 public:
   Cell() {}
   Cell(int pos_x, int pos_y, Snake::Direction d, int dest_x, int dest_y);
+  ~Cell();
   int x = 0;
   int y = 0;
   float distance = 0.0;

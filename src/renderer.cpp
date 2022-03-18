@@ -43,11 +43,11 @@ Renderer::~Renderer()
   SDL_Quit();
 }
 
-void RenderFood(SDL_Renderer *sdl_renderer, SDL_Point const &f, SDL_Rect &b)
+void RenderFood(SDL_Renderer *sdl_renderer, std::unique_ptr<Food> const &f, SDL_Rect &b)
 {
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
-  b.x = f.x * b.w;
-  b.y = f.y * b.h;
+  b.x = f->x * b.w;
+  b.y = f->y * b.h;
   SDL_RenderFillRect(sdl_renderer, &b);
 }
 
@@ -88,7 +88,7 @@ void RenderSnake(SDL_Renderer *sdl_renderer, Snake const &s, SDL_Rect &b)
   SDL_RenderFillRect(sdl_renderer, &b);
 }
 
-void Renderer::Render(Snake const snake, Snake automonous, SDL_Point const &food)
+void Renderer::Render(Snake const snake, Snake automonous, std::unique_ptr<Food> const &food)
 {
   SDL_Rect block;
   block.w = screen_width / grid_width;

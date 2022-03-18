@@ -12,7 +12,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       random_h(0, static_cast<int>(grid_height - 1))
 {
   PlaceFood();
-  planner = Planner(static_cast<int>(grid_width), static_cast<int>(grid_height), food.x, food.y);
+  planner = Planner(static_cast<int>(grid_width), static_cast<int>(grid_height), food.get()->x, food.get()->y);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -72,8 +72,7 @@ void Game::PlaceFood()
     // food.
     if (!snake.SnakeCell(x, y))
     {
-      food.x = x;
-      food.y = y;
+      food = std::make_unique<Food>(x, y, true);
       return;
     }
   }
@@ -90,11 +89,11 @@ void Game::Update(Snake& s)
   int new_y = static_cast<int>(s.head_y);
 
   // Check if there's food over here
-  if (food.x == new_x && food.y == new_y)
+  if (food.get()->x == new_x && food.get()->y == new_y)
   {
     s.score++;
     PlaceFood();
-    planner.SetDestination(food.x, food.y);
+    planner.SetDestination(food.get()->x, food.get()->y);
     // Grow snake and increase speed.
     s.GrowBody();
     if (s.manual) { s.speed += 0.02; }

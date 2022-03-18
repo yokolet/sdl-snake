@@ -3,11 +3,13 @@
 
 #include <random>
 #include <vector>
+#include <memory>
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
 #include "planner.h"
+#include "food.h"
 
 class Game
 {
@@ -21,7 +23,8 @@ public:
 private:
   Snake snake;
   Snake autonomous;
-  SDL_Point food;
+  //SDL_Point food;
+  std::unique_ptr<Food> food;
   Planner planner;
 
   std::random_device dev;
