@@ -31,6 +31,7 @@ private:
   std::mt19937 engine;
   std::uniform_int_distribution<int> random_w;
   std::uniform_int_distribution<int> random_h;
+  std::uniform_int_distribution<int> random_v;
 
   void PlaceFood();
   void Update(Snake& s);

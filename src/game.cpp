@@ -12,7 +12,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       random_h(0, static_cast<int>(grid_height - 1))
 {
   PlaceFood();
-  planner = Planner(static_cast<int>(grid_width), static_cast<int>(grid_height), food.get()->x, food.get()->y);
+  planner = Planner(static_cast<int>(grid_width), static_cast<int>(grid_height), food->x, food->y);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -64,15 +64,17 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 void Game::PlaceFood()
 {
   int x, y;
+  bool safe;
   while (true)
   {
     x = random_w(engine);
     y = random_h(engine);
+    safe = random_v(engine) % 3 != 0;
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake.SnakeCell(x, y))
+    if (!snake.SnakeCell(x, y) && !autonomous.SnakeCell(x, y))
     {
-      food = std::make_unique<Food>(x, y, true);
+      food = std::make_unique<Food>(x, y, safe);
       return;
     }
   }
@@ -89,13 +91,21 @@ void Game::Update(Snake& s)
   int new_y = static_cast<int>(s.head_y);
 
   // Check if there's food over here
-  if (food.get()->x == new_x && food.get()->y == new_y)
+  if (food->x == new_x && food->y == new_y)
   {
-    s.score++;
+    if (food->safe)
+    {
+      s.score++;
+      // Grow snake
+      s.GrowBody();
+    }
+    else
+    {
+      s.score--;
+    }
     PlaceFood();
-    planner.SetDestination(food.get()->x, food.get()->y);
-    // Grow snake and increase speed.
-    s.GrowBody();
+    planner.SetDestination(food->x, food->y);
+    // Increase speed if a snake is muanually controlled
     if (s.manual) { s.speed += 0.02; }
   }
 }

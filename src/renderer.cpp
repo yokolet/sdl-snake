@@ -45,7 +45,15 @@ Renderer::~Renderer()
 
 void RenderFood(SDL_Renderer *sdl_renderer, std::unique_ptr<Food> const &f, SDL_Rect &b)
 {
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
+  if (f->safe)
+  {
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
+  }
+  else
+  {
+    SDL_SetRenderDrawColor(sdl_renderer, 0x7D, 0x3C, 0x98, 0xFF);
+  }
+
   b.x = f->x * b.w;
   b.y = f->y * b.h;
   SDL_RenderFillRect(sdl_renderer, &b);

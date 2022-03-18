@@ -61,6 +61,7 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell)
   else
   {
     growing = false;
+    ++size;
   }
 
   // Check if the snake has died.
@@ -73,17 +74,7 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell)
   }
 }
 
-void Snake::GrowBody()
-{
-  growing = true;
-  ++size;
-}
-
-void Snake::ShrinkBody()
-{
-  growing = true;
-  size = std::max(1, --size);
-}
+void Snake::GrowBody() { growing = true; }
 
 // Inefficient method to check if cell is occupied by snake.
 bool Snake::SnakeCell(int x, int y)
