@@ -15,11 +15,15 @@ public:
     kRight
   };
 
-  Snake(int grid_width, int grid_height)
+  Snake(int grid_width, int grid_height, bool manual)
       : grid_width(grid_width),
         grid_height(grid_height),
+        manual(manual),
         head_x(grid_width / 2),
         head_y(grid_height / 2) {}
+
+  Snake(int grid_width, int grid_height)
+      : Snake(grid_width, grid_height, true) {}
 
   void Update();
 
@@ -32,6 +36,7 @@ public:
   int size{1};
   int score{0};
   bool alive{true};
+  bool manual{true};
   float head_x;
   float head_y;
   std::vector<SDL_Point> body;
