@@ -48,17 +48,22 @@ void Controller::HandleInput(bool &running, Snake &snake) const
   }
 }
 
-const char* ToString(Snake::Direction v)
+const char *ToString(Snake::Direction v)
+{
+  switch (v)
   {
-      switch (v)
-      {
-          case Snake::Direction::kUp:   return "Up";
-          case Snake::Direction::kDown:   return "Down";
-          case Snake::Direction::kLeft: return "Left";
-          case Snake::Direction::kRight: return "Right";
-          default:      return "[Unknown Direction]";
-      }
+  case Snake::Direction::kUp:
+    return "Up";
+  case Snake::Direction::kDown:
+    return "Down";
+  case Snake::Direction::kLeft:
+    return "Left";
+  case Snake::Direction::kRight:
+    return "Right";
+  default:
+    return "[Unknown Direction]";
   }
+}
 
 void Controller::HandleSearch(bool &running, Snake &snake, Planner &planner) const
 {
@@ -72,7 +77,7 @@ void Controller::HandleSearch(bool &running, Snake &snake, Planner &planner) con
     }
   }
   planner.AddNeighbors(&snake);
-  Cell* c = planner.NextCell();
-  //std::cout << "next cell x: " << c->x << ", y: " << c->y << ", dist: " << c->distance << ", direction: " <<  ToString(c->direction) << std::endl;
+  Cell *c = planner.NextCell();
+  // std::cout << "next cell x: " << c->x << ", y: " << c->y << ", dist: " << c->distance << ", direction: " <<  ToString(c->direction) << std::endl;
   snake.direction = c->direction;
-  }
+}
