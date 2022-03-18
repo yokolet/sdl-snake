@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include "planner.h"
 #include "cell.h"
@@ -24,25 +25,25 @@ void Planner::AddNeighbors(Snake *snake)
   int x = static_cast<int>(snake->head_x);
   int y = static_cast<int>(snake->head_y);
   // left
-  if (x - 1 >= 0)
+  if (x - 1 >= 0 && (snake->size == 1 || snake->direction != Snake::Direction::kRight))
   {
     std::unique_ptr<Cell> c = std::make_unique<Cell>(x - 1, y, Snake::Direction::kLeft, dest_x, dest_y);
     neighbors.push_back(std::move(c));
   }
   // right
-  if (x + 1 < grid_width)
+  if (x + 1 < grid_width && (snake->size == 1 || snake->direction != Snake::Direction::kLeft))
   {
     std::unique_ptr<Cell> c = std::make_unique<Cell>(x + 1, y, Snake::Direction::kRight, dest_x, dest_y);
     neighbors.push_back(std::move(c));
   }
   // up
-  if (y - 1 >= 0)
+  if (y - 1 >= 0 && (snake->size == 1 || snake->direction != Snake::Direction::kDown))
   {
     std::unique_ptr<Cell> c = std::make_unique<Cell>(x, y - 1, Snake::Direction::kUp, dest_x, dest_y);
     neighbors.push_back(std::move(c));
   }
   // down
-  if (y + 1 < grid_height)
+  if (y + 1 < grid_height && (snake->size == 1 || snake->direction != Snake::Direction::kUp))
   {
     std::unique_ptr<Cell> c = std::make_unique<Cell>(x, y + 1, Snake::Direction::kDown, dest_x, dest_y);
     neighbors.push_back(std::move(c));
