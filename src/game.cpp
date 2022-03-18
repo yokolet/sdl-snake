@@ -97,7 +97,7 @@ void Game::Update(Snake& s)
     planner.SetDestination(food.x, food.y);
     // Grow snake and increase speed.
     s.GrowBody();
-    s.speed += 0.02;
+    if (s.manual) { s.speed += 0.02; }
   }
 }
 
