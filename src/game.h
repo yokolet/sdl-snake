@@ -30,7 +30,7 @@ private:
   int score{0};
 
   void PlaceFood();
-  void Update();
+  void Update(Snake& s);
 };
 
 #endif

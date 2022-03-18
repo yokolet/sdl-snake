@@ -31,7 +31,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     //controller.HandleInput(running, snake);
     controller.HandleSearch(running, snake, planner);
-    Update();
+    Update(snake);
     renderer.Render(snake, food);
 
     frame_end = SDL_GetTicks();
@@ -77,15 +77,15 @@ void Game::PlaceFood()
   }
 }
 
-void Game::Update()
+void Game::Update(Snake& s)
 {
-  if (!snake.alive)
+  if (!s.alive)
     return;
 
-  snake.Update();
+  s.Update();
 
-  int new_x = static_cast<int>(snake.head_x);
-  int new_y = static_cast<int>(snake.head_y);
+  int new_x = static_cast<int>(s.head_x);
+  int new_y = static_cast<int>(s.head_y);
 
   // Check if there's food over here
   if (food.x == new_x && food.y == new_y)
@@ -94,8 +94,8 @@ void Game::Update()
     PlaceFood();
     planner.SetDestination(food.x, food.y);
     // Grow snake and increase speed.
-    snake.GrowBody();
-    snake.speed += 0.02;
+    s.GrowBody();
+    s.speed += 0.02;
   }
 }
 

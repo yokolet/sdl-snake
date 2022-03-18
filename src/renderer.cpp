@@ -38,6 +38,35 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
+void RenderFood(SDL_Renderer* sdl_renderer, SDL_Point const &f, SDL_Rect &b)
+{
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
+  b.x = f.x * b.w;
+  b.y = f.y * b.h;
+  SDL_RenderFillRect(sdl_renderer, &b);
+}
+
+void RenderSnake(SDL_Renderer* sdl_renderer, Snake const &s, SDL_Rect &b)
+{
+  // Render snake's body
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  for (SDL_Point const &point : s.body) {
+    b.x = point.x * b.w;
+    b.y = point.y * b.h;
+    SDL_RenderFillRect(sdl_renderer, &b);
+  }
+
+  // Render snake's head
+  b.x = static_cast<int>(s.head_x) * b.w;
+  b.y = static_cast<int>(s.head_y) * b.h;
+  if (s.alive) {
+    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
+  } else {
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+  }
+  SDL_RenderFillRect(sdl_renderer, &b);
+}
+
 void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
@@ -48,28 +77,10 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_RenderClear(sdl_renderer);
 
   // Render food
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
-  block.x = food.x * block.w;
-  block.y = food.y * block.h;
-  SDL_RenderFillRect(sdl_renderer, &block);
+  RenderFood(sdl_renderer, food, block);
 
-  // Render snake's body
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  for (SDL_Point const &point : snake.body) {
-    block.x = point.x * block.w;
-    block.y = point.y * block.h;
-    SDL_RenderFillRect(sdl_renderer, &block);
-  }
-
-  // Render snake's head
-  block.x = static_cast<int>(snake.head_x) * block.w;
-  block.y = static_cast<int>(snake.head_y) * block.h;
-  if (snake.alive) {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
-  } else {
-    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
-  }
-  SDL_RenderFillRect(sdl_renderer, &block);
+  // Render snake
+  RenderSnake(sdl_renderer, snake, block);
 
   // Update Screen
   SDL_RenderPresent(sdl_renderer);
