@@ -67,8 +67,13 @@ This Snake Game has the code structure described in the picture blow.
 2. Loops, Functions, I/O\
     Planner class has if statements and uses sort function with a customized compare function.\
     To add one more snake, some existing methods had additional arguments. For example, Renderer::Render method has additional snake argument. Also, to handle two types of foods, the same Rederer::Reder method had a food as an argument.
-3. Object Oriented Programming
-4. Memory Management
+3. Object Oriented Programming\
+    `Cell`, `Food`, and `Planner` classes were newly added to the starter code to group data/functions into individual classes. All those classes hold the own data to encapsilate the behavior.\
+    Each class' data members are defined as public or private explicitly.\
+    To handle two types of snakes, `Snake` class had one more overloaded contructor.
+4. Memory Management\
+    In `Planner::AddNeighbors()` method, cell instances are added to the neighbors used an unique pointer since the cell objects are frequently created and removed.\
+    The same method receives a snake object using pass-by-reference.
 5. Concurrency\
     Does not apply
 

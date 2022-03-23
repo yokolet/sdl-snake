@@ -15,7 +15,7 @@ public:
   ~Cell();
   int x = 0;
   int y = 0;
-  float distance = 0.0;
+  float distance = 0.0; // distance to the destination (food)
   Snake::Direction direction = Snake::Direction::kUp; // up, down, left or right of the snake head
 private:
 };

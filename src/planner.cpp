@@ -13,12 +13,14 @@ Planner::Planner(int width, int height, int x, int y)
   dest_y = y;
 }
 
+// set the destination position. This is used when the destination is changed.
 void Planner::SetDestination(int x, int y)
 {
   dest_x = x;
   dest_y = y;
 }
 
+// add neigbor cells to the neigbors vector
 void Planner::AddNeighbors(Snake *snake)
 {
   neighbors.clear();
@@ -50,10 +52,12 @@ void Planner::AddNeighbors(Snake *snake)
   }
 }
 
+// sorting function
 bool Compare(const std::unique_ptr<Cell>& c1, const std::unique_ptr<Cell>& c2) {
   return c1->distance > c2->distance;
 }
 
+// find the closest cell and return it
 Cell *Planner::NextCell()
 {
   sort(this->neighbors.begin(), this->neighbors.end(), Compare);
