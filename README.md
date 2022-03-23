@@ -77,6 +77,10 @@ This Snake Game has the code structure described in the picture blow.
 5. Concurrency\
     Does not apply
 
+## Source Code Repository
+
+https://github.com/yokolet/sdl-snake
+
 ## CC Attribution-ShareAlike 4.0 International
 
 Shield: [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
